@@ -3,3 +3,9 @@
 ################################################################################
 
 /.vs
+/FifthsTrajectoryVisualizer/bin
+/FifthsTrajectoryVisualizer/obj
+/MidiReader/bin
+/MidiReader/obj
+/MusicSignatureBuilder/bin
+/MusicSignatureBuilder/obj
