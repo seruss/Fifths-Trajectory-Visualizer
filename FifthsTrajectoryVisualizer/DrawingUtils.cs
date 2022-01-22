@@ -103,14 +103,14 @@ public class DrawingUtils
     {
         float half = side / 2f;
         var center = new PointF(half, half);
-        var font = new Font("Helvetica", 14);
+        var font = new Font("Times New Roman", 14);
 
         for (int i = 0; i < letters.Length; i++)
         {
             if (i == 6)
-                g.DrawString(letters[i], font, Brushes.Blue, half - 30, 0);
+                g.DrawString(letters[i], font, Brushes.Black, half - 30, 0);
             else
-                g.DrawString(letters[i], font, Brushes.Blue, half - 10, 0);
+                g.DrawString(letters[i], font, Brushes.Black, half - 10, 0);
             g.TranslateTransform(-center.X, -center.Y, MatrixOrder.Append);
             g.RotateTransform(30, MatrixOrder.Append);
             g.TranslateTransform(center.X, center.Y, MatrixOrder.Append);

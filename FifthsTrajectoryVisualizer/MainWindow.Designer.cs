@@ -34,7 +34,7 @@ namespace FifthsTrajectoryVisualizer
         {
             this.tableLayoutPanel1 = new System.Windows.Forms.TableLayoutPanel();
             this.cacheUpdateProgress = new System.Windows.Forms.ProgressBar();
-            this.tabControl = new System.Windows.Forms.TabControl();
+            this.exportTab = new System.Windows.Forms.TabControl();
             this.filesTabPage = new System.Windows.Forms.TabPage();
             this.tableLayoutPanel2 = new System.Windows.Forms.TableLayoutPanel();
             this.filesListBox = new System.Windows.Forms.ListBox();
@@ -52,12 +52,29 @@ namespace FifthsTrajectoryVisualizer
             this.gridSizeLabel = new System.Windows.Forms.Label();
             this.axisLimitsTrackBar = new System.Windows.Forms.TrackBar();
             this.gridSizeTrackBar = new System.Windows.Forms.TrackBar();
+            this.fileExportTabPage = new System.Windows.Forms.TabPage();
+            this.saveExportButton = new System.Windows.Forms.Button();
+            this.groupBox3 = new System.Windows.Forms.GroupBox();
+            this.label3 = new System.Windows.Forms.Label();
+            this.exportFileFormatComboBox = new System.Windows.Forms.ComboBox();
+            this.label2 = new System.Windows.Forms.Label();
+            this.exportFileLocationTextBox = new System.Windows.Forms.TextBox();
+            this.selectExportFolderButton = new System.Windows.Forms.Button();
+            this.label1 = new System.Windows.Forms.Label();
+            this.exportFileNameTextBox = new System.Windows.Forms.TextBox();
+            this.groupBox2 = new System.Windows.Forms.GroupBox();
+            this.selectedFilesRadioButton = new System.Windows.Forms.RadioButton();
+            this.allFilesRadioButton = new System.Windows.Forms.RadioButton();
+            this.groupBox1 = new System.Windows.Forms.GroupBox();
+            this.exporetedPrecisionsCheckedListBox = new System.Windows.Forms.CheckedListBox();
+            this.modesGroupBox = new System.Windows.Forms.GroupBox();
+            this.exportedModesCheckedListBox = new System.Windows.Forms.CheckedListBox();
             this.backBoardPanel = new System.Windows.Forms.Panel();
             this.testLetters = new FifthsTrajectoryVisualizer.TransparentPanel();
             this.circleDisplayPanel = new System.Windows.Forms.Panel();
             this.trajectoryCacheWorker = new System.ComponentModel.BackgroundWorker();
             this.tableLayoutPanel1.SuspendLayout();
-            this.tabControl.SuspendLayout();
+            this.exportTab.SuspendLayout();
             this.filesTabPage.SuspendLayout();
             this.tableLayoutPanel2.SuspendLayout();
             this.trajectoryInfoBox.SuspendLayout();
@@ -65,6 +82,11 @@ namespace FifthsTrajectoryVisualizer
             ((System.ComponentModel.ISupportInitialize)(this.currentCMPS)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.axisLimitsTrackBar)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.gridSizeTrackBar)).BeginInit();
+            this.fileExportTabPage.SuspendLayout();
+            this.groupBox3.SuspendLayout();
+            this.groupBox2.SuspendLayout();
+            this.groupBox1.SuspendLayout();
+            this.modesGroupBox.SuspendLayout();
             this.backBoardPanel.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -78,7 +100,7 @@ namespace FifthsTrajectoryVisualizer
             this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 450F));
             this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 100F));
             this.tableLayoutPanel1.Controls.Add(this.cacheUpdateProgress, 0, 1);
-            this.tableLayoutPanel1.Controls.Add(this.tabControl, 0, 0);
+            this.tableLayoutPanel1.Controls.Add(this.exportTab, 0, 0);
             this.tableLayoutPanel1.Controls.Add(this.backBoardPanel, 1, 0);
             this.tableLayoutPanel1.Location = new System.Drawing.Point(12, 12);
             this.tableLayoutPanel1.Name = "tableLayoutPanel1";
@@ -96,18 +118,19 @@ namespace FifthsTrajectoryVisualizer
             this.cacheUpdateProgress.Size = new System.Drawing.Size(440, 24);
             this.cacheUpdateProgress.TabIndex = 3;
             // 
-            // tabControl
+            // exportTab
             // 
-            this.tabControl.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            this.exportTab.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-            this.tabControl.Controls.Add(this.filesTabPage);
-            this.tabControl.Controls.Add(this.settingsTabPage);
-            this.tabControl.Location = new System.Drawing.Point(3, 3);
-            this.tabControl.Name = "tabControl";
-            this.tabControl.SelectedIndex = 0;
-            this.tabControl.Size = new System.Drawing.Size(444, 494);
-            this.tabControl.TabIndex = 2;
+            this.exportTab.Controls.Add(this.filesTabPage);
+            this.exportTab.Controls.Add(this.settingsTabPage);
+            this.exportTab.Controls.Add(this.fileExportTabPage);
+            this.exportTab.Location = new System.Drawing.Point(3, 3);
+            this.exportTab.Name = "exportTab";
+            this.exportTab.SelectedIndex = 0;
+            this.exportTab.Size = new System.Drawing.Size(444, 494);
+            this.exportTab.TabIndex = 2;
             // 
             // filesTabPage
             // 
@@ -152,6 +175,7 @@ namespace FifthsTrajectoryVisualizer
             this.filesListBox.ItemHeight = 15;
             this.filesListBox.Location = new System.Drawing.Point(3, 3);
             this.filesListBox.Name = "filesListBox";
+            this.filesListBox.SelectionMode = System.Windows.Forms.SelectionMode.MultiExtended;
             this.filesListBox.Size = new System.Drawing.Size(418, 229);
             this.filesListBox.TabIndex = 0;
             this.filesListBox.MouseDoubleClick += new System.Windows.Forms.MouseEventHandler(this.PlayMidiFile);
@@ -294,6 +318,196 @@ namespace FifthsTrajectoryVisualizer
             this.gridSizeTrackBar.Value = 6;
             this.gridSizeTrackBar.ValueChanged += new System.EventHandler(this.UpdateGridSize);
             // 
+            // fileExportTabPage
+            // 
+            this.fileExportTabPage.Controls.Add(this.saveExportButton);
+            this.fileExportTabPage.Controls.Add(this.groupBox3);
+            this.fileExportTabPage.Controls.Add(this.groupBox2);
+            this.fileExportTabPage.Controls.Add(this.groupBox1);
+            this.fileExportTabPage.Controls.Add(this.modesGroupBox);
+            this.fileExportTabPage.Location = new System.Drawing.Point(4, 24);
+            this.fileExportTabPage.Name = "fileExportTabPage";
+            this.fileExportTabPage.Padding = new System.Windows.Forms.Padding(3);
+            this.fileExportTabPage.Size = new System.Drawing.Size(436, 466);
+            this.fileExportTabPage.TabIndex = 2;
+            this.fileExportTabPage.Text = "Export";
+            this.fileExportTabPage.UseVisualStyleBackColor = true;
+            // 
+            // saveExportButton
+            // 
+            this.saveExportButton.Location = new System.Drawing.Point(331, 421);
+            this.saveExportButton.Name = "saveExportButton";
+            this.saveExportButton.Size = new System.Drawing.Size(99, 39);
+            this.saveExportButton.TabIndex = 3;
+            this.saveExportButton.Text = "Save";
+            this.saveExportButton.UseVisualStyleBackColor = true;
+            this.saveExportButton.Click += new System.EventHandler(this.SaveExportedTrajectory);
+            // 
+            // groupBox3
+            // 
+            this.groupBox3.Controls.Add(this.label3);
+            this.groupBox3.Controls.Add(this.exportFileFormatComboBox);
+            this.groupBox3.Controls.Add(this.label2);
+            this.groupBox3.Controls.Add(this.exportFileLocationTextBox);
+            this.groupBox3.Controls.Add(this.selectExportFolderButton);
+            this.groupBox3.Controls.Add(this.label1);
+            this.groupBox3.Controls.Add(this.exportFileNameTextBox);
+            this.groupBox3.Location = new System.Drawing.Point(6, 150);
+            this.groupBox3.Name = "groupBox3";
+            this.groupBox3.Size = new System.Drawing.Size(305, 195);
+            this.groupBox3.TabIndex = 2;
+            this.groupBox3.TabStop = false;
+            this.groupBox3.Text = "File";
+            // 
+            // label3
+            // 
+            this.label3.AutoSize = true;
+            this.label3.Location = new System.Drawing.Point(6, 140);
+            this.label3.Name = "label3";
+            this.label3.Size = new System.Drawing.Size(45, 15);
+            this.label3.TabIndex = 6;
+            this.label3.Text = "Format";
+            // 
+            // exportFileFormatComboBox
+            // 
+            this.exportFileFormatComboBox.FormattingEnabled = true;
+            this.exportFileFormatComboBox.Items.AddRange(new object[] {
+            "JSON"});
+            this.exportFileFormatComboBox.Location = new System.Drawing.Point(9, 158);
+            this.exportFileFormatComboBox.Name = "exportFileFormatComboBox";
+            this.exportFileFormatComboBox.Size = new System.Drawing.Size(121, 23);
+            this.exportFileFormatComboBox.TabIndex = 5;
+            // 
+            // label2
+            // 
+            this.label2.AutoSize = true;
+            this.label2.Location = new System.Drawing.Point(6, 75);
+            this.label2.Name = "label2";
+            this.label2.Size = new System.Drawing.Size(53, 15);
+            this.label2.TabIndex = 4;
+            this.label2.Text = "Location";
+            // 
+            // exportFileLocationTextBox
+            // 
+            this.exportFileLocationTextBox.Location = new System.Drawing.Point(9, 93);
+            this.exportFileLocationTextBox.Name = "exportFileLocationTextBox";
+            this.exportFileLocationTextBox.Size = new System.Drawing.Size(290, 23);
+            this.exportFileLocationTextBox.TabIndex = 3;
+            // 
+            // selectExportFolderButton
+            // 
+            this.selectExportFolderButton.Location = new System.Drawing.Point(224, 126);
+            this.selectExportFolderButton.Name = "selectExportFolderButton";
+            this.selectExportFolderButton.Size = new System.Drawing.Size(75, 23);
+            this.selectExportFolderButton.TabIndex = 2;
+            this.selectExportFolderButton.Text = "Open";
+            this.selectExportFolderButton.UseVisualStyleBackColor = true;
+            this.selectExportFolderButton.Click += new System.EventHandler(this.FolderSelectDialog);
+            // 
+            // label1
+            // 
+            this.label1.AutoSize = true;
+            this.label1.Location = new System.Drawing.Point(6, 22);
+            this.label1.Name = "label1";
+            this.label1.Size = new System.Drawing.Size(39, 15);
+            this.label1.TabIndex = 1;
+            this.label1.Text = "Name";
+            // 
+            // exportFileNameTextBox
+            // 
+            this.exportFileNameTextBox.Location = new System.Drawing.Point(9, 40);
+            this.exportFileNameTextBox.Name = "exportFileNameTextBox";
+            this.exportFileNameTextBox.Size = new System.Drawing.Size(290, 23);
+            this.exportFileNameTextBox.TabIndex = 0;
+            // 
+            // groupBox2
+            // 
+            this.groupBox2.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.groupBox2.Controls.Add(this.selectedFilesRadioButton);
+            this.groupBox2.Controls.Add(this.allFilesRadioButton);
+            this.groupBox2.Location = new System.Drawing.Point(6, 74);
+            this.groupBox2.Name = "groupBox2";
+            this.groupBox2.Size = new System.Drawing.Size(132, 70);
+            this.groupBox2.TabIndex = 1;
+            this.groupBox2.TabStop = false;
+            this.groupBox2.Text = "Trajectories";
+            // 
+            // selectedFilesRadioButton
+            // 
+            this.selectedFilesRadioButton.AutoSize = true;
+            this.selectedFilesRadioButton.Location = new System.Drawing.Point(6, 43);
+            this.selectedFilesRadioButton.Name = "selectedFilesRadioButton";
+            this.selectedFilesRadioButton.Size = new System.Drawing.Size(69, 19);
+            this.selectedFilesRadioButton.TabIndex = 1;
+            this.selectedFilesRadioButton.TabStop = true;
+            this.selectedFilesRadioButton.Text = "Selected";
+            this.selectedFilesRadioButton.UseVisualStyleBackColor = true;
+            // 
+            // allFilesRadioButton
+            // 
+            this.allFilesRadioButton.AutoSize = true;
+            this.allFilesRadioButton.Location = new System.Drawing.Point(6, 22);
+            this.allFilesRadioButton.Name = "allFilesRadioButton";
+            this.allFilesRadioButton.Size = new System.Drawing.Size(39, 19);
+            this.allFilesRadioButton.TabIndex = 0;
+            this.allFilesRadioButton.TabStop = true;
+            this.allFilesRadioButton.Text = "All";
+            this.allFilesRadioButton.UseVisualStyleBackColor = true;
+            // 
+            // groupBox1
+            // 
+            this.groupBox1.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.groupBox1.Controls.Add(this.exporetedPrecisionsCheckedListBox);
+            this.groupBox1.Location = new System.Drawing.Point(188, 6);
+            this.groupBox1.Name = "groupBox1";
+            this.groupBox1.Size = new System.Drawing.Size(123, 138);
+            this.groupBox1.TabIndex = 1;
+            this.groupBox1.TabStop = false;
+            this.groupBox1.Text = "Precisions";
+            // 
+            // exporetedPrecisionsCheckedListBox
+            // 
+            this.exporetedPrecisionsCheckedListBox.BorderStyle = System.Windows.Forms.BorderStyle.None;
+            this.exporetedPrecisionsCheckedListBox.CheckOnClick = true;
+            this.exporetedPrecisionsCheckedListBox.FormattingEnabled = true;
+            this.exporetedPrecisionsCheckedListBox.Items.AddRange(new object[] {
+            "Whole",
+            "Half",
+            "Quarter",
+            "Eighth",
+            "Sixteenth"});
+            this.exporetedPrecisionsCheckedListBox.Location = new System.Drawing.Point(6, 22);
+            this.exporetedPrecisionsCheckedListBox.Name = "exporetedPrecisionsCheckedListBox";
+            this.exporetedPrecisionsCheckedListBox.Size = new System.Drawing.Size(111, 90);
+            this.exporetedPrecisionsCheckedListBox.TabIndex = 0;
+            // 
+            // modesGroupBox
+            // 
+            this.modesGroupBox.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.modesGroupBox.Controls.Add(this.exportedModesCheckedListBox);
+            this.modesGroupBox.Location = new System.Drawing.Point(6, 6);
+            this.modesGroupBox.Name = "modesGroupBox";
+            this.modesGroupBox.Size = new System.Drawing.Size(132, 62);
+            this.modesGroupBox.TabIndex = 0;
+            this.modesGroupBox.TabStop = false;
+            this.modesGroupBox.Text = "Modes";
+            // 
+            // exportedModesCheckedListBox
+            // 
+            this.exportedModesCheckedListBox.BorderStyle = System.Windows.Forms.BorderStyle.None;
+            this.exportedModesCheckedListBox.CheckOnClick = true;
+            this.exportedModesCheckedListBox.FormattingEnabled = true;
+            this.exportedModesCheckedListBox.Items.AddRange(new object[] {
+            "Length",
+            "Count"});
+            this.exportedModesCheckedListBox.Location = new System.Drawing.Point(6, 22);
+            this.exportedModesCheckedListBox.Name = "exportedModesCheckedListBox";
+            this.exportedModesCheckedListBox.Size = new System.Drawing.Size(91, 36);
+            this.exportedModesCheckedListBox.TabIndex = 0;
+            // 
             // backBoardPanel
             // 
             this.backBoardPanel.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
@@ -339,7 +553,7 @@ namespace FifthsTrajectoryVisualizer
             this.Name = "MainWindow";
             this.Text = "Trajectory of fifths";
             this.tableLayoutPanel1.ResumeLayout(false);
-            this.tabControl.ResumeLayout(false);
+            this.exportTab.ResumeLayout(false);
             this.filesTabPage.ResumeLayout(false);
             this.filesTabPage.PerformLayout();
             this.tableLayoutPanel2.ResumeLayout(false);
@@ -350,6 +564,13 @@ namespace FifthsTrajectoryVisualizer
             ((System.ComponentModel.ISupportInitialize)(this.currentCMPS)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.axisLimitsTrackBar)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.gridSizeTrackBar)).EndInit();
+            this.fileExportTabPage.ResumeLayout(false);
+            this.groupBox3.ResumeLayout(false);
+            this.groupBox3.PerformLayout();
+            this.groupBox2.ResumeLayout(false);
+            this.groupBox2.PerformLayout();
+            this.groupBox1.ResumeLayout(false);
+            this.modesGroupBox.ResumeLayout(false);
             this.backBoardPanel.ResumeLayout(false);
             this.ResumeLayout(false);
             this.PerformLayout();
@@ -361,7 +582,7 @@ namespace FifthsTrajectoryVisualizer
         private System.Windows.Forms.TableLayoutPanel tableLayoutPanel1;
         private System.Windows.Forms.Panel backBoardPanel;
         private System.Windows.Forms.Panel circleDisplayPanel;
-        private System.Windows.Forms.TabControl tabControl;
+        private System.Windows.Forms.TabControl exportTab;
         private System.Windows.Forms.TabPage filesTabPage;
         private System.Windows.Forms.TabPage settingsTabPage;
         private System.Windows.Forms.ListBox filesListBox;
@@ -382,6 +603,23 @@ namespace FifthsTrajectoryVisualizer
         private TransparentPanel testLetters;
         private NumericUpDown currentCMPS;
         private CheckBox showIndividualSignaturesCheckBox;
+        private TabPage fileExportTabPage;
+        private GroupBox groupBox2;
+        private GroupBox groupBox1;
+        private CheckedListBox exporetedPrecisionsCheckedListBox;
+        private GroupBox modesGroupBox;
+        private CheckedListBox exportedModesCheckedListBox;
+        private RadioButton selectedFilesRadioButton;
+        private RadioButton allFilesRadioButton;
+        private Button saveExportButton;
+        private GroupBox groupBox3;
+        private Label label3;
+        private ComboBox exportFileFormatComboBox;
+        private Label label2;
+        private TextBox exportFileLocationTextBox;
+        private Button selectExportFolderButton;
+        private Label label1;
+        private TextBox exportFileNameTextBox;
     }
 }
 

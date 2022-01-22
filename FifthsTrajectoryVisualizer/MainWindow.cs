@@ -3,6 +3,9 @@ using MusicSignatureBuilder.Enums;
 using System.Collections.Concurrent;
 using System.ComponentModel;
 using System.Diagnostics;
+using System.Globalization;
+using System.Linq;
+using Newtonsoft.Json;
 
 namespace FifthsTrajectoryVisualizer;
 
@@ -25,16 +28,28 @@ public partial class MainWindow : Form
     public MainWindow()
     {
         InitializeComponent();
-        DoubleBuffered = true;
+        SetStyle(ControlStyles.OptimizedDoubleBuffer, true);
+
         modeComboBox.Items.AddRange(Enum.GetNames<Modes>());
         precisionComboBox.Items.AddRange(Enum.GetNames<Resolutions>());
+
         SizeChanged += (_, _) => { Refresh(); };
         filesListBox.SelectedIndexChanged += (_, _) => { Refresh(); };
-        currentCMPS.ValueChanged += (_, _) => { Refresh(); };
-        showIndividualSignaturesCheckBox.CheckedChanged += (_, _) => { Refresh(); };
+        currentCMPS.ValueChanged += (_, _) => { circleDisplayPanel.Refresh(); };
+        showIndividualSignaturesCheckBox.CheckedChanged += (_, _) => { circleDisplayPanel.Refresh(); };
+        
         trajectoryCacheWorker.DoWork += CreateTrajectoryCache;
         trajectoryCacheWorker.ProgressChanged += (_, e) => { cacheUpdateProgress.Value = e.ProgressPercentage; };
         trajectoryCacheWorker.WorkerReportsProgress = true;
+
+        allFilesRadioButton.Select();
+        exportFileFormatComboBox.SelectedItem = exportFileFormatComboBox.Items[0];
+
+        for (int i = 0; i < exporetedPrecisionsCheckedListBox.Items.Count; i++)
+            exporetedPrecisionsCheckedListBox.SetItemChecked(i, true);
+
+        for (int i = 0; i < exportedModesCheckedListBox.Items.Count; i++)
+            exportedModesCheckedListBox.SetItemChecked(i, true);
     }
 
     private void PlayMidiFile(object sender, MouseEventArgs e)
@@ -58,21 +73,21 @@ public partial class MainWindow : Form
     public override void Refresh()
     {
         if (filesListBox.SelectedItems.Count == 1 &&
-            !string.IsNullOrEmpty(modeComboBox.Text) &&
-            !string.IsNullOrEmpty(precisionComboBox.Text))
+            modeComboBox.SelectedItem is not null &&
+            precisionComboBox.SelectedItem is not null)
         {
             if (trajectoryCache.ContainsKey((string)filesListBox.SelectedItem) &&
-                trajectoryCache[(string)filesListBox.SelectedItem].ContainsKey(Enum.Parse<Modes>(modeComboBox.Text, false)) &&
-                trajectoryCache[(string)filesListBox.SelectedItem][Enum.Parse<Modes>(modeComboBox.Text, false)].ContainsKey(Enum.Parse<Resolutions>(precisionComboBox.Text, false)))
+                trajectoryCache[(string)filesListBox.SelectedItem].ContainsKey(ModesExtensions.Parse(modeComboBox.Text)) &&
+                trajectoryCache[(string)filesListBox.SelectedItem][ModesExtensions.Parse(modeComboBox.Text)].ContainsKey(ResolutionsExtensions.Parse(precisionComboBox.Text)))
             {
                 currentlyDisplayed = trajectoryCache
                         [(string)filesListBox.SelectedItem]
-                        [Enum.Parse<Modes>(modeComboBox.Text, false)]
-                        [Enum.Parse<Resolutions>(precisionComboBox.Text, false)];
+                        [ModesExtensions.Parse(modeComboBox.Text)]
+                        [ResolutionsExtensions.Parse(precisionComboBox.Text)];
             }
             else
                 MessageBox.Show($"Unable to load trajectory for {(string)filesListBox.SelectedItem}", "Encountered errors", MessageBoxButtons.OK, MessageBoxIcon.Error);
-        }
+        } 
         base.Refresh();
     }
 
@@ -170,6 +185,62 @@ public partial class MainWindow : Form
             fileInfos = openFileDialog.FileNames.ToDictionary(key => new FileInfo(key).Name, value => new FileInfo(value));
             filesListBox.Items.AddRange(fileInfos.Keys.ToArray());
             trajectoryCacheWorker.RunWorkerAsync();
+        }
+    }
+
+    private void FolderSelectDialog(object sender, EventArgs e)
+    {
+        using var openFolderDialog = new FolderBrowserDialog();
+        openFolderDialog.InitialDirectory = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments);
+
+        if (openFolderDialog.ShowDialog() == DialogResult.OK)
+        {
+            exportFileLocationTextBox.Text = openFolderDialog.SelectedPath;
+
+            if(string.IsNullOrEmpty(exportFileNameTextBox.Text) || File.Exists(Path.Combine(openFolderDialog.SelectedPath, exportFileNameTextBox.Text)))
+                   exportFileNameTextBox.Text = $"trajectory-export-{DateTime.Now.ToString("ddMMyyyyHHmm", DateTimeFormatInfo.CurrentInfo)}";
+        }
+    }
+
+    private void SaveExportedTrajectory(object sender, EventArgs e) 
+    {
+        try
+        {
+            var cached = trajectoryCache;
+
+            var files = allFilesRadioButton.Checked
+                ? cached.Keys
+                : filesListBox.SelectedItems.OfType<string>();
+
+            foreach (var fileName in cached.Keys)
+            {
+                if (!files.Contains(fileName))
+                    cached.Remove(fileName, out _);
+                else
+                {
+                    foreach (var mode in cached[fileName].Keys)
+                    {
+                        if (!exportedModesCheckedListBox.CheckedItems.Contains(mode.ToString()))
+                            cached[fileName].Remove(mode);
+                        else
+                        {
+                            foreach (var resolution in cached[fileName][mode].Keys)
+                            {
+                                if (!exporetedPrecisionsCheckedListBox.CheckedItems.Contains(resolution.ToString()))
+                                    cached[fileName][mode].Remove(resolution, out _);
+                            }
+                        }
+                    }
+                }
+            }
+            var serialized = JsonConvert.SerializeObject(cached);
+            var path = Path.Combine(exportFileLocationTextBox.Text, $"{exportFileNameTextBox.Text}.json");
+            File.WriteAllText(path, serialized);
+            MessageBox.Show("Trajectory exported", "Completed", MessageBoxButtons.OK, MessageBoxIcon.Information);
+        }
+        catch (Exception ex)
+        {
+            MessageBox.Show(ex.Message, "Unexpected error", MessageBoxButtons.OK, MessageBoxIcon.Error);
         }
     }
 
