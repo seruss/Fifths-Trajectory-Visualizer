@@ -1,3 +1,5 @@
+using System.Collections.Generic;
+
 namespace MidiSheetMusic
 {
     /** Enumeration of the notes in a scale (A, A#, ... G#) */

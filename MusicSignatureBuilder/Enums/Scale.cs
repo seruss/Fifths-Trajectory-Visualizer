@@ -1,17 +1,18 @@
-﻿namespace MusicSignatureBuilder.Enums;
-
-public enum Scale
+﻿namespace MusicSignatureBuilder.Enums
 {
-    C,
-    Cs,
-    D,
-    Ds,
-    E,
-    F,
-    Fs,
-    G,
-    Gs,
-    A,
-    As,
-    H
+    public enum Scale
+    {
+        C,
+        Cs,
+        D,
+        Ds,
+        E,
+        F,
+        Fs,
+        G,
+        Gs,
+        A,
+        As,
+        H
+    }
 }

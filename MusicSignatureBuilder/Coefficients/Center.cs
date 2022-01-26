@@ -1,14 +1,20 @@
-﻿namespace MusicSignatureBuilder.Coefficients;
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
 
-public class Center
+namespace MusicSignatureBuilder.Coefficients
 {
-    public double Offset { get; }
-
-    public Point Point { get; }
-
-    public Center(Dictionary<int, CPMS> points)
+    public class Center
     {
-        Point = new Point(points.Values.Select(x => x.Coordinates).Average(p => p.X), points.Values.Select(x => x.Coordinates).Average(p => p.Y));
-        Offset = Math.Sqrt(Point.X * Point.X + Point.Y * Point.Y);
+        public double Offset { get; }
+
+        public Point Point { get; }
+
+        public Center(Dictionary<int, CPMS> points)
+        {
+            Point = new Point(points.Values.Select(x => x.Coordinates).Average(p => p.X),
+                points.Values.Select(x => x.Coordinates).Average(p => p.Y));
+            Offset = Math.Sqrt(Point.X * Point.X + Point.Y * Point.Y);
+        }
     }
 }

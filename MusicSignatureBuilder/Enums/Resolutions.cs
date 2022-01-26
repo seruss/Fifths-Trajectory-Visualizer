@@ -1,26 +1,29 @@
-﻿namespace MusicSignatureBuilder.Enums;
+﻿using System;
 
-public enum Resolutions : byte
+namespace MusicSignatureBuilder.Enums
 {
-    Whole = 1,
-    Half = 2,
-    Quarter = 4,
-    Eighth = 8,
-    Sixteenth = 16
-}
-
-public static class ResolutionsExtensions
-{
-    public static Resolutions Parse(string resolution)
+    public enum Resolutions : byte
     {
-        return resolution switch
+        Whole = 1,
+        Half = 2,
+        Quarter = 4,
+        Eighth = 8,
+        Sixteenth = 16
+    }
+
+    public static class ResolutionsExtensions
+    {
+        public static Resolutions Parse(string resolution)
         {
-            nameof(Resolutions.Whole) => Resolutions.Whole,
-            nameof(Resolutions.Half) => Resolutions.Half,
-            nameof(Resolutions.Quarter) => Resolutions.Quarter,
-            nameof(Resolutions.Eighth) => Resolutions.Eighth,
-            nameof(Resolutions.Sixteenth) => Resolutions.Sixteenth,
-            _ => throw new ArgumentOutOfRangeException(nameof(resolution))
-        };
+            return resolution switch
+            {
+                nameof(Resolutions.Whole) => Resolutions.Whole,
+                nameof(Resolutions.Half) => Resolutions.Half,
+                nameof(Resolutions.Quarter) => Resolutions.Quarter,
+                nameof(Resolutions.Eighth) => Resolutions.Eighth,
+                nameof(Resolutions.Sixteenth) => Resolutions.Sixteenth,
+                _ => throw new ArgumentOutOfRangeException(nameof(resolution))
+            };
+        }
     }
 }

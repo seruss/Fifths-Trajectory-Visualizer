@@ -1,20 +1,29 @@
-﻿namespace MusicSignatureBuilder.Coefficients;
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
 
-public class Deviation
+namespace MusicSignatureBuilder.Coefficients
 {
-    public double Average { get; }
-
-    public Dictionary<int, double> AllRelative { get; } = new();
-
-    public Dictionary<int, double> AllAbsolute { get; } = new();
-
-    public Deviation(Dictionary<int, CPMS> points, Center center)
+    public class Deviation
     {
-        for (int i = 0; i < points.Count; i++)
+        public double Average { get; }
+
+        public Dictionary<int, double> AllRelative { get; } = new();
+
+        public Dictionary<int, double> AllAbsolute { get; } = new();
+
+        public Deviation(Dictionary<int, CPMS> points, Center center)
         {
-            AllRelative.Add(i, Math.Sqrt(Math.Pow(points[i].Coordinates.X - center.Point.X, 2) + Math.Pow(points[i].Coordinates.Y - center.Point.Y, 2)));
-            AllAbsolute.Add(i, Math.Sqrt(Math.Pow(points[i].Coordinates.X, 2) + Math.Pow(points[i].Coordinates.Y, 2)));
+            for (int i = 0; i < points.Count; i++)
+            {
+                AllRelative.Add(i,
+                    Math.Sqrt(Math.Pow(points[i].Coordinates.X - center.Point.X, 2) +
+                              Math.Pow(points[i].Coordinates.Y - center.Point.Y, 2)));
+                AllAbsolute.Add(i,
+                    Math.Sqrt(Math.Pow(points[i].Coordinates.X, 2) + Math.Pow(points[i].Coordinates.Y, 2)));
+            }
+
+            Average = AllRelative.Values.Average();
         }
-        Average = AllRelative.Values.Average();
     }
 }

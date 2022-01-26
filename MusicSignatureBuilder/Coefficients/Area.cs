@@ -1,28 +1,32 @@
-﻿namespace MusicSignatureBuilder.Coefficients;
+﻿using System;
+using System.Collections.Generic;
 
-public class Area
+namespace MusicSignatureBuilder.Coefficients
 {
-    public double Relative { get; set; }
-
-    public double Absolute { get; set; }
-
-    public Area(Dictionary<int, CPMS> points, Deviation deviation, Length length)
+    public class Area
     {
-        for (int i = 1; i < points.Count; i++)
+        public double Relative { get; set; }
+
+        public double Absolute { get; set; }
+
+        public Area(Dictionary<int, CPMS> points, Deviation deviation, Length length)
         {
-            double rel = Math.Abs((deviation.AllRelative[i] + deviation.AllRelative[i - 1] + length.All[i - 1]) *
-                                  (deviation.AllRelative[i] + deviation.AllRelative[i - 1] - length.All[i - 1]) *
-                                  (deviation.AllRelative[i] - deviation.AllRelative[i - 1] + length.All[i - 1]) *
-                                  (-deviation.AllRelative[i] + deviation.AllRelative[i - 1] + length.All[i - 1]));
+            for (int i = 1; i < points.Count; i++)
+            {
+                double rel = Math.Abs((deviation.AllRelative[i] + deviation.AllRelative[i - 1] + length.All[i - 1]) *
+                                      (deviation.AllRelative[i] + deviation.AllRelative[i - 1] - length.All[i - 1]) *
+                                      (deviation.AllRelative[i] - deviation.AllRelative[i - 1] + length.All[i - 1]) *
+                                      (-deviation.AllRelative[i] + deviation.AllRelative[i - 1] + length.All[i - 1]));
 
-            Relative += Math.Sqrt(rel) / 4;
+                Relative += Math.Sqrt(rel) / 4;
 
-            double abs = Math.Abs((deviation.AllAbsolute[i] + deviation.AllAbsolute[i - 1] + length.All[i - 1]) *
-                              (deviation.AllAbsolute[i] + deviation.AllAbsolute[i - 1] - length.All[i - 1]) *
-                              (deviation.AllAbsolute[i] - deviation.AllAbsolute[i - 1] + length.All[i - 1]) *
-                              (-deviation.AllAbsolute[i] + deviation.AllAbsolute[i - 1] + length.All[i - 1]));
+                double abs = Math.Abs((deviation.AllAbsolute[i] + deviation.AllAbsolute[i - 1] + length.All[i - 1]) *
+                                      (deviation.AllAbsolute[i] + deviation.AllAbsolute[i - 1] - length.All[i - 1]) *
+                                      (deviation.AllAbsolute[i] - deviation.AllAbsolute[i - 1] + length.All[i - 1]) *
+                                      (-deviation.AllAbsolute[i] + deviation.AllAbsolute[i - 1] + length.All[i - 1]));
 
-            Absolute += Math.Sqrt(abs) / 4;
+                Absolute += Math.Sqrt(abs) / 4;
+            }
         }
     }
 }
