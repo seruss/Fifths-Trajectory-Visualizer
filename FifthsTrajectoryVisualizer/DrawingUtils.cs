@@ -9,7 +9,7 @@ namespace FifthsTrajectoryVisualizer
 
     public class DrawingUtils
     {
-        private static string[] letters = {"C", "G", "D", "A", "E", "H", "G♭/F♯", "D♭", "A♭", "E♭", "B", "F"};
+        private static readonly string[] Letters = {"C", "G", "D", "A", "E", "H", "G♭/F♯", "D♭", "A♭", "E♭", "B", "F"};
 
         public static void DrawGrid(Graphics g, int cellsCount, float cellSize, Pen pen)
         {
@@ -25,11 +25,11 @@ namespace FifthsTrajectoryVisualizer
             var half = side / 2f;
             var center = new PointF(half, half);
 
-            AdjustableArrowCap bigArrow = new AdjustableArrowCap(10, 10);
-            Pen pen = new Pen(Color.LimeGreen, 2);
+            AdjustableArrowCap bigArrow = new(10, 10);
+            Pen pen = new(Color.LimeGreen, 2);
             pen.CustomEndCap = bigArrow;
 
-            for (int i = 0; i < letters.Length; i++)
+            for (int i = 0; i < Letters.Length; i++)
             {
                 if (keys.Contains(i))
                     g.DrawLine(pen, half, side, half, 0);
@@ -64,8 +64,8 @@ namespace FifthsTrajectoryVisualizer
             var half = side / 2f;
             var center = new PointF(half, half);
 
-            AdjustableArrowCap bigArrow = new AdjustableArrowCap(5, 5);
-            Pen pen = new Pen(Color.DeepPink, 2);
+            AdjustableArrowCap bigArrow = new(5, 5);
+            Pen pen = new(Color.DeepPink, 2);
             pen.CustomEndCap = bigArrow;
 
             if (showComponents)
@@ -117,12 +117,12 @@ namespace FifthsTrajectoryVisualizer
             var center = new PointF(half, half);
             var font = new Font("Times New Roman", 14);
 
-            for (int i = 0; i < letters.Length; i++)
+            for (int i = 0; i < Letters.Length; i++)
             {
                 if (i == 6)
-                    g.DrawString(letters[i], font, Brushes.Black, half - 30, 0);
+                    g.DrawString(Letters[i], font, Brushes.Black, half - 30, 0);
                 else
-                    g.DrawString(letters[i], font, Brushes.Black, half - 10, 0);
+                    g.DrawString(Letters[i], font, Brushes.Black, half - 10, 0);
                 g.TranslateTransform(-center.X, -center.Y, MatrixOrder.Append);
                 g.RotateTransform(30, MatrixOrder.Append);
                 g.TranslateTransform(center.X, center.Y, MatrixOrder.Append);

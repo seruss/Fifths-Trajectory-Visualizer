@@ -18,8 +18,6 @@ namespace FifthsTrajectoryVisualizer
             }
         }
 
-        private DisplaySettings _settings;
-
         public MainWindow()
         {
             InitializeComponent();

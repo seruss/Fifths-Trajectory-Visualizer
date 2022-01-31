@@ -27,7 +27,7 @@ namespace MusicSignatureBuilder
             NoteVectorLengths = coords.ToDictionary(key => key.Key, value => CalculateVectorLength(value.Value));
         }
 
-        private float CalculateVectorLength(Point p)
+        private static float CalculateVectorLength(Point p)
         {
             return MathF.Sqrt(MathF.Pow(p.X, 2) + MathF.Pow(p.Y, 2));
         }

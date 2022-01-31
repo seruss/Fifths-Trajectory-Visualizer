@@ -87,7 +87,7 @@ namespace FifthsTrajectoryVisualizer
                 return;
             }
 
-            string timestamp = $"{DateTime.Now.Year.ToString().Substring(2)}{DateTime.Now.DayOfYear.ToString().PadLeft(3, '0')}{(int)(DateTime.Now.TimeOfDay.TotalMinutes / 3)}";// DateTime.Now.ToString("ddMMyyyyHHmm", DateTimeFormatInfo.CurrentInfo);
+            string timestamp = $"{DateTime.Now.Year.ToString()[2..]}{DateTime.Now.DayOfYear.ToString().PadLeft(3, '0')}{(int)(DateTime.Now.TimeOfDay.TotalMinutes / 3)}";// DateTime.Now.ToString("ddMMyyyyHHmm", DateTimeFormatInfo.CurrentInfo);
 
             try
             {

@@ -76,14 +76,14 @@ namespace MusicSignatureBuilder.Coefficients
         {
             if (CalculatedAxis.Count == 1)
             {
-                var calculatedKey = keys[(CalculatedAxis[0] + 1) % 12];
-                return IsMajor(CalculatedAxis[0], _centerOfTrajectory) ? calculatedKey.Major : calculatedKey.Minor;
+                var (major, minor) = keys[(CalculatedAxis[0] + 1) % 12];
+                return IsMajor(CalculatedAxis[0], _centerOfTrajectory) ? major : minor;
             }
 
             return string.Join("\n", CalculatedAxis.Select(axis => keys[(axis + 1) % 12]));
         }
 
-        private bool IsInHalf(int axis, int note)
+        private static bool IsInHalf(int axis, int note)
         {
             if (axis <= 6)
             {
@@ -99,7 +99,7 @@ namespace MusicSignatureBuilder.Coefficients
             return false;
         }
 
-        private bool IsMajor(int mainAxis, Point p)
+        private static bool IsMajor(int mainAxis, Point p)
         {
             switch (mainAxis)
             {

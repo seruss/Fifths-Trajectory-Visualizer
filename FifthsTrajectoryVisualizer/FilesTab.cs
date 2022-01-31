@@ -27,7 +27,7 @@ namespace FifthsTrajectoryVisualizer
 
         private void FileOpenDialog(object sender, EventArgs e)
         {
-            using OpenFileDialog openFileDialog = new OpenFileDialog();
+            using OpenFileDialog openFileDialog = new();
             openFileDialog.InitialDirectory = Environment.GetFolderPath(Environment.SpecialFolder.MyMusic);
             openFileDialog.Filter = "midi files (*.mid)|*.mid";
             openFileDialog.Multiselect = true;
@@ -80,7 +80,7 @@ namespace FifthsTrajectoryVisualizer
                 try
                 {
                     var filePath = StateManager.Instance.ImportedFiles[(string)filesListBox.Items[index]].FullName;
-                    ProcessStartInfo startInfo = new ProcessStartInfo(@"C:\Program Files (x86)\K-Lite Codec Pack\MPC-HC64\mpc-hc64_nvo.exe", filePath);
+                    ProcessStartInfo startInfo = new(@"C:\Program Files (x86)\K-Lite Codec Pack\MPC-HC64\mpc-hc64_nvo.exe", filePath);
                     Process.Start(startInfo);
                 }
                 catch (Exception ex)
