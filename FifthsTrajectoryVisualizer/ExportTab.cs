@@ -87,6 +87,12 @@ namespace FifthsTrajectoryVisualizer
                 return;
             }
 
+            if (!rangeCheckBox.Checked && exportRangeStart.Value >= exportRangeEnd.Value)
+            {
+                MessageBox.Show("Invalid range", "Unexpected error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                return;
+            }
+
             string timestamp = $"{DateTime.Now.Year.ToString()[2..]}{DateTime.Now.DayOfYear.ToString().PadLeft(3, '0')}{(int)(DateTime.Now.TimeOfDay.TotalMinutes / 3)}";// DateTime.Now.ToString("ddMMyyyyHHmm", DateTimeFormatInfo.CurrentInfo);
 
             try
@@ -98,7 +104,7 @@ namespace FifthsTrajectoryVisualizer
                         if (!exportedModesCheckedListBox.CheckedItems.Contains(mode.ToString()))
                             continue;
 
-                        var exportFolder = Path.Combine(exportFileLocationTextBox.Text, $"{fileName.Replace(".mid", "")} {mode.ToString().ToLower()}-mode {timestamp}");
+                        var exportFolder = Path.Combine(exportFileLocationTextBox.Text, $"{fileName.Replace(".mid", "")} note-{mode.ToString().ToLower()}-mode {timestamp}");
                         Directory.CreateDirectory(exportFolder);
 
                         var coefficients = new StringBuilder();
@@ -121,7 +127,7 @@ namespace FifthsTrajectoryVisualizer
                         File.WriteAllText(Path.Combine(exportFolder, "coefficients.csv"), coefficients.ToString(), Encoding.UTF8);
                     }
                 });
-                MessageBox.Show("Trajectory export", "Completed", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                MessageBox.Show("Export performed successfully", "Completed", MessageBoxButtons.OK, MessageBoxIcon.Information);
             }
             catch (Exception ex)
             {

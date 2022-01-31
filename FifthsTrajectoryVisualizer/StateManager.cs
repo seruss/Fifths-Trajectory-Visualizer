@@ -79,6 +79,7 @@ namespace FifthsTrajectoryVisualizer
 
         public void ChangeSelectedTrajectory(object sender, EventArgs e)
         {
+            SelectedSignature = null;
             SelectedTrajectoryChanged?.Invoke(this, EventArgs.Empty);
         }
     }
