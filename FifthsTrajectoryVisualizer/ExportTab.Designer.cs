@@ -119,7 +119,7 @@
             this.selectExportFolderButton.Name = "selectExportFolderButton";
             this.selectExportFolderButton.Size = new System.Drawing.Size(72, 23);
             this.selectExportFolderButton.TabIndex = 2;
-            this.selectExportFolderButton.Text = "Open";
+            this.selectExportFolderButton.Text = "Select";
             this.selectExportFolderButton.UseVisualStyleBackColor = true;
             // 
             // tableLayoutPanel1

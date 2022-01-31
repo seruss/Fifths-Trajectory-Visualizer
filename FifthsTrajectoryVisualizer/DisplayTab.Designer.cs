@@ -109,13 +109,14 @@
             this.gridSizeTrackBar.Size = new System.Drawing.Size(193, 45);
             this.gridSizeTrackBar.TabIndex = 0;
             this.gridSizeTrackBar.Value = 6;
+            this.gridSizeTrackBar.Minimum = 1;
             // 
             // axisLimitsTrackBar
             // 
             this.axisLimitsTrackBar.BackColor = System.Drawing.SystemColors.ButtonHighlight;
             this.axisLimitsTrackBar.Location = new System.Drawing.Point(0, 18);
             this.axisLimitsTrackBar.Maximum = 9;
-            this.axisLimitsTrackBar.Minimum = 1;
+            this.axisLimitsTrackBar.Minimum = 2;
             this.axisLimitsTrackBar.Name = "axisLimitsTrackBar";
             this.axisLimitsTrackBar.Size = new System.Drawing.Size(196, 45);
             this.axisLimitsTrackBar.TabIndex = 1;

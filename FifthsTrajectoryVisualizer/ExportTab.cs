@@ -81,7 +81,7 @@ namespace FifthsTrajectoryVisualizer
 
             var filesToExport = allFilesRadioButton.Checked ? cached.Keys : StateManager.Instance.SelectedFiles;
 
-            if (!filesToExport.Any())
+            if (filesToExport?.Any() is not true)
             {
                 MessageBox.Show("No files selected", "Unexpected error", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 return;
