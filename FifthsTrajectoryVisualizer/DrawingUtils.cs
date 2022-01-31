@@ -26,7 +26,7 @@ namespace FifthsTrajectoryVisualizer
             var center = new PointF(half, half);
 
             AdjustableArrowCap bigArrow = new AdjustableArrowCap(10, 10);
-            Pen pen = new Pen(Color.DarkRed, 2);
+            Pen pen = new Pen(Color.LimeGreen, 2);
             pen.CustomEndCap = bigArrow;
 
             for (int i = 0; i < letters.Length; i++)
@@ -40,24 +40,25 @@ namespace FifthsTrajectoryVisualizer
             }
         }
 
-        public static void PlotData(Graphics g, Dictionary<int, CPMS> points, int side, float length)
+        public static void PlotData(Graphics g, Dictionary<int, CPMS> points, int side, float length, bool showTrack, bool showPoints)
         {
             float markerSize = 2f;
             var previousPoint = PointF.Empty;
             foreach (var id in points.Keys.OrderBy(k => k))
             {
                 var point = Translate(points[id].Coordinates, side, length);
-                g.DrawEllipse(Pens.Red, point.X - markerSize, point.Y - markerSize, markerSize * 2, markerSize * 2);
-                if (!previousPoint.IsEmpty)
-                {
+
+                if(showPoints)
+                    g.DrawEllipse(Pens.DarkGreen, point.X - markerSize, point.Y - markerSize, markerSize * 2, markerSize * 2);
+
+                if (!previousPoint.IsEmpty && showTrack)
                     g.DrawLine(Pens.DarkSeaGreen, previousPoint, point);
-                }
 
                 previousPoint = point;
             }
         }
 
-        public static void DrawCPMSComponents(Graphics g, int side, float length, CPMS point)
+        public static void DrawCPMS(Graphics g, int side, float length, CPMS point, bool showComponents)
         {
             float markerSize = 2f;
             var half = side / 2f;
@@ -67,26 +68,30 @@ namespace FifthsTrajectoryVisualizer
             Pen pen = new Pen(Color.DeepPink, 2);
             pen.CustomEndCap = bigArrow;
 
-            foreach (var p in point.Components)
+            if (showComponents)
             {
-                g.DrawLine(pen, center, Translate(p, side, length));
+                foreach (var p in point.Components)
+                {
+                    g.DrawLine(pen, center, Translate(p, side, length));
+                }
             }
 
             var transCPMS = Translate(point.Coordinates, side, length);
-            g.DrawEllipse(Pens.Red, transCPMS.X - markerSize, transCPMS.Y - markerSize, markerSize * 2, markerSize * 2);
+            var pointPen = new Pen(Color.Red, 3);
+            g.DrawEllipse(pointPen, transCPMS.X - markerSize, transCPMS.Y - markerSize, markerSize * 2, markerSize * 2);
         }
 
         public static PointF Translate(MusicSignatureBuilder.Point point, int side, float length)
         {
             var center = side / 2f;
-            return new PointF(center + (length * (float) point.X), center - (length * (float) point.Y));
+            return new PointF(center + (length * point.X), center - (length * point.Y));
         }
 
         public static void DrawCenterOfTrajectory(Graphics g, MusicSignatureBuilder.Point point, int side, float length)
         {
             float markerSize = 4f;
             var translated = Translate(point, side, length);
-            g.FillEllipse(Brushes.Blue, translated.X - markerSize, translated.Y - markerSize, markerSize * 2,
+            g.FillEllipse(Brushes.DeepSkyBlue, translated.X - markerSize, translated.Y - markerSize, markerSize * 2,
                 markerSize * 2);
             g.FillEllipse(Brushes.DarkOrange, translated.X - markerSize / 2, translated.Y - markerSize / 2, markerSize,
                 markerSize);

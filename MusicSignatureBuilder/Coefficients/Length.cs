@@ -14,9 +14,7 @@ namespace MusicSignatureBuilder.Coefficients
         {
             for (int i = 1; i < points.Count; i++)
             {
-                All.Add(i - 1,
-                    Math.Sqrt(Math.Pow(points[i].Coordinates.X - points[i - 1].Coordinates.X, 2) +
-                              Math.Pow(points[i].Coordinates.Y - points[i - 1].Coordinates.Y, 2)));
+                All.Add(i - 1, Math.Sqrt(Math.Pow(points[i].Coordinates.X - points[i - 1].Coordinates.X, 2) + Math.Pow(points[i].Coordinates.Y - points[i - 1].Coordinates.Y, 2)));
             }
 
             Value = All.Values.Sum();

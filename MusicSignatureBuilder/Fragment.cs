@@ -36,10 +36,10 @@ namespace MusicSignatureBuilder
         {
             switch (mode)
             {
-                case Modes.Count:
+                case Modes.Multiplicity:
 
                     var count = _notesDurations.Keys.GroupBy(note => (Scale) (note % 12))
-                        .Select(group => new {Metric = group.Key, Count = (double) group.Count()});
+                        .Select(group => new {Metric = group.Key, Count = (float) group.Count()});
 
                     var max = count.Max(x => x.Count);
 
@@ -47,12 +47,11 @@ namespace MusicSignatureBuilder
 
                     _componentVectorsCoords = normalized.Where(x => x.Value > 0)
                         .ToDictionary(x => ToFifthCircleScale(x.Key),
-                            x => new Point(x.Value * Math.Cos(GetAngle(x.Key)), x.Value * Math.Sin(GetAngle(x.Key))));
+                            x => new Point(x.Value * MathF.Cos(GetAngle(x.Key)), x.Value * MathF.Sin(GetAngle(x.Key))));
 
-                    return new Point(_componentVectorsCoords.Values.Sum(p => p.X),
-                        _componentVectorsCoords.Values.Sum(p => p.Y));
+                    return new Point(_componentVectorsCoords.Values.Sum(p => p.X), _componentVectorsCoords.Values.Sum(p => p.Y));
 
-                case Modes.Length:
+                case Modes.Duration:
 
                     var length = _notesDurations.GroupBy(kvp => (Scale) (kvp.Key % 12))
                         .Select(group => new {Metric = group.Key, Count = group.Sum(x => x.Value)});
@@ -63,12 +62,10 @@ namespace MusicSignatureBuilder
 
                     _componentVectorsCoords = normalized.Where(x => x.Value > 0)
                         .ToDictionary(x => ToFifthCircleScale(x.Key),
-                            x => new Point(x.Value * Math.Cos(GetAngle(x.Key)), x.Value * Math.Sin(GetAngle(x.Key))));
+                            x => new Point(x.Value * MathF.Cos(GetAngle(x.Key)), x.Value * MathF.Sin(GetAngle(x.Key))));
 
-                    return new Point(_componentVectorsCoords.Values.Sum(p => p.X),
-                        _componentVectorsCoords.Values.Sum(p => p.Y));
+                    return new Point(_componentVectorsCoords.Values.Sum(p => p.X), _componentVectorsCoords.Values.Sum(p => p.Y));
             }
-
             return Point.Empty;
         }
 
@@ -93,45 +90,45 @@ namespace MusicSignatureBuilder
             return -1;
         }
 
-        private double GetAngle(Scale scale)
+        private float GetAngle(Scale scale)
         {
             switch (scale)
             {
                 case Scale.C:
-                    return Math.PI / 2;
+                    return MathF.PI / 2;
 
                 case Scale.Cs:
-                    return 4 * Math.PI / 3;
+                    return 4 * MathF.PI / 3;
 
                 case Scale.D:
-                    return Math.PI / 6;
+                    return MathF.PI / 6;
 
                 case Scale.Ds:
-                    return Math.PI;
+                    return MathF.PI;
 
                 case Scale.E:
-                    return 11 * Math.PI / 6;
+                    return 11 * MathF.PI / 6;
 
                 case Scale.F:
-                    return 2 * Math.PI / 3;
+                    return 2 * MathF.PI / 3;
 
                 case Scale.Fs:
-                    return 3 * Math.PI / 2;
+                    return 3 * MathF.PI / 2;
 
                 case Scale.G:
-                    return Math.PI / 3;
+                    return MathF.PI / 3;
 
                 case Scale.Gs:
-                    return 7 * Math.PI / 6;
+                    return 7 * MathF.PI / 6;
 
                 case Scale.A:
                     return 0;
 
                 case Scale.As:
-                    return 5 * Math.PI / 6;
+                    return 5 * MathF.PI / 6;
 
                 case Scale.H:
-                    return 5 * Math.PI / 3;
+                    return 5 * MathF.PI / 3;
             }
 
             return 0;

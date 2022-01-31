@@ -1,4 +1,6 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
+using System.Globalization;
 using System.Linq;
 using MidiSheetMusic;
 using MusicSignatureBuilder.Coefficients;
@@ -24,7 +26,7 @@ namespace MusicSignatureBuilder
 
         public MainAxis MainAxis { get; private set; }
 
-        public Trajectory(string file, Resolutions resolution, Modes mode)
+        public Trajectory(string file, Sampling resolution, Modes mode)
         {
             _midiFile = new(file);
             Fragment.Length = (int) (_midiFile.Time.Quarter / ((int) resolution / 4.0));
@@ -103,12 +105,40 @@ namespace MusicSignatureBuilder
         {
             return $"Number of points: {_fragments.Count} \n" +
                    $"Center of trajectory: {Center.Point} \n" +
-                   $"Distance from the center of the circle of fifths: {Center.Offset.ToString("0.00", System.Globalization.CultureInfo.InvariantCulture)} \n" +
-                   $"Average deviation: {Deviation.Average.ToString("0.00", System.Globalization.CultureInfo.InvariantCulture)} \n" +
-                   $"Length of trajectory: {Length.Value.ToString("0.00", System.Globalization.CultureInfo.InvariantCulture)} \n" +
-                   $"Area relative to the center of trajectory: {Area.Relative.ToString("0.00", System.Globalization.CultureInfo.InvariantCulture)} \n" +
-                   $"Area in reference to the center of the circle of fifths: {Area.Absolute.ToString("0.00", System.Globalization.CultureInfo.InvariantCulture)} \n" +
+                   $"Distance from the center of the circle of fifths: {Center.Offset.ToString("0.00", CultureInfo.InvariantCulture)} \n" +
+                   $"Average deviation: {Deviation.Average.ToString("0.00", CultureInfo.InvariantCulture)} \n" +
+                   $"Length of trajectory: {Length.Value.ToString("0.00", CultureInfo.InvariantCulture)} \n" +
+                   $"Area relative to the center of trajectory: {Area.Relative.ToString("0.00", CultureInfo.InvariantCulture)} \n" +
+                   $"Area in reference to the center of the circle of fifths: {Area.Absolute.ToString("0.00", CultureInfo.InvariantCulture)} \n" +
                    $"Predicted key(s): {MainAxis.GetKey()} \n";
+        }
+
+        public string PointsToCsv()
+        {
+            return $"id,x,y\n{string.Join(Environment.NewLine, _characteristicPoints.Select(p => $"{p.Key},{p.Value.Coordinates.X.ToString(CultureInfo.InvariantCulture)},{p.Value.Coordinates.Y.ToString(CultureInfo.InvariantCulture)}"))}";
+        }
+
+        public string CoefficientsToCsv(Sampling sampling)
+        {
+            return $"{sampling.ToString().ToLower()} note,{Center.Point.X.ToString(CultureInfo.InvariantCulture)},{Center.Point.Y.ToString(CultureInfo.InvariantCulture)}," +
+                   $"{Center.Offset.ToString(CultureInfo.InvariantCulture)},{Deviation.Average.ToString(CultureInfo.InvariantCulture)},{Length.Value.ToString(CultureInfo.InvariantCulture)}," +
+                   $"{Area.Relative.ToString(CultureInfo.InvariantCulture)},{Area.Absolute.ToString(CultureInfo.InvariantCulture)},{MainAxis.GetKey()}\n";
+        }
+
+        public static string GetCoefficientsCsvHeader()
+        {
+            return "sampling,trajectory_center_x,trajectory_center_y,distance_from_center,avg_deviation,length,area_relative,area_absolute,predicted_key\n";
+        }
+
+        public Trajectory GetLimited(int start, int end)
+        {
+            var clonedTrajectory = (Trajectory)MemberwiseClone();
+            foreach (var key in _characteristicPoints.Keys.Where(key => key < start || key > end))
+            {
+                clonedTrajectory._characteristicPoints.Remove(key);
+            }
+            clonedTrajectory.CalculateCoefficients();
+            return clonedTrajectory;
         }
     }
 }

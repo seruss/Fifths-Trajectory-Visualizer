@@ -5,8 +5,8 @@ namespace MusicSignatureBuilder.Enums
 
     public enum Modes
     {
-        Length,
-        Count
+        Duration,
+        Multiplicity
     }
 
     public static class ModesExtensions
@@ -15,8 +15,8 @@ namespace MusicSignatureBuilder.Enums
         {
             return mode switch
             {
-                nameof(Modes.Length) => Modes.Length,
-                nameof(Modes.Count) => Modes.Count,
+                nameof(Modes.Duration) => Modes.Duration,
+                nameof(Modes.Multiplicity) => Modes.Multiplicity,
                 _ => throw new ArgumentOutOfRangeException(nameof(mode))
             };
         }

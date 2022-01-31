@@ -22,6 +22,13 @@ namespace FifthsTrajectoryVisualizer
             //base.OnPaintBackground(e);
         }
 
+        public TransparentPanel()
+        {
+            SetStyle(
+                ControlStyles.DoubleBuffer,
+                true);
+        }
+
         protected override void OnPaint(PaintEventArgs e)
         {
             e.Graphics.InterpolationMode = System.Drawing.Drawing2D.InterpolationMode.HighQualityBicubic;

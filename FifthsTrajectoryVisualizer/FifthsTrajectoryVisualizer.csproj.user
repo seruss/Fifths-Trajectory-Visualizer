@@ -4,6 +4,15 @@
     <_LastSelectedProfileId>C:\Users\serus\Desktop\studia\inż\FifthsTrajectoryVisualizer\FifthsTrajectoryVisualizer\Properties\PublishProfiles\FolderProfile.pubxml</_LastSelectedProfileId>
   </PropertyGroup>
   <ItemGroup>
+    <Compile Update="DisplayTab.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Update="ExportTab.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Update="FilesTab.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
     <Compile Update="MainWindow.cs">
       <SubType>Form</SubType>
     </Compile>
