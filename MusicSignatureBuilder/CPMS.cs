@@ -9,7 +9,7 @@ namespace MusicSignatureBuilder
     {
         public List<Point> Components { get; } = new();
 
-        public Dictionary<int, double> NoteVectorLengths { get; } = new();
+        public Dictionary<int, float> NoteVectorLengths { get; } = new();
 
         public Point Coordinates { get; set; } = Point.Empty;
 
@@ -27,9 +27,9 @@ namespace MusicSignatureBuilder
             NoteVectorLengths = coords.ToDictionary(key => key.Key, value => CalculateVectorLength(value.Value));
         }
 
-        private double CalculateVectorLength(Point p)
+        private float CalculateVectorLength(Point p)
         {
-            return Math.Sqrt(Math.Pow(p.X, 2) + Math.Pow(p.Y, 2));
+            return MathF.Sqrt(MathF.Pow(p.X, 2) + MathF.Pow(p.Y, 2));
         }
     }
 }

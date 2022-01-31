@@ -22,24 +22,24 @@ namespace MusicSignatureBuilder.Coefficients
             {11, ("F major", "D minor")}
         };
 
-        private readonly Dictionary<int, double> vectorLengths = new();
+        private readonly Dictionary<int, float> vectorLengths = new();
 
         private readonly Point _centerOfTrajectory;
 
         public List<int> CalculatedAxis { get; set; } = new();
 
-        private static readonly double sqrt3 = Math.Sqrt(3);
+        private static readonly float sqrt3 = MathF.Sqrt(3);
 
         public MainAxis(Dictionary<int, CPMS> points, Point centerOfTrajectory)
         {
-            Dictionary<int, double> subtracted = new();
-            KeyValuePair<int, double> bestMatch = new();
+            Dictionary<int, float> subtracted = new();
+            KeyValuePair<int, float> bestMatch = new();
             _centerOfTrajectory = centerOfTrajectory;
 
             for (int i = 0; i < 12; i++)
             {
-                vectorLengths.Add(i, 0.0);
-                subtracted.Add(i, 0.0);
+                vectorLengths.Add(i, 0.0f);
+                subtracted.Add(i, 0.0f);
             }
 
             foreach (var pKey in points.Keys)
