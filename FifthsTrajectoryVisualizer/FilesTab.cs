@@ -36,10 +36,22 @@ namespace FifthsTrajectoryVisualizer
 
             if (openFileDialog.ShowDialog() == DialogResult.OK)
             {
-                filesListBox.Items.Clear();
                 StateManager.Instance.ImportedFiles = openFileDialog.FileNames.ToDictionary(key => new FileInfo(key).Name, value => new FileInfo(value));
-                filesListBox.Items.AddRange(StateManager.Instance.ImportedFiles.Keys.ToArray());
                 ((MainWindow)ParentForm).RunCacheWorker();
+            }
+        }
+
+        public void RefreshImportedFilesList(object sender, EventArgs e)
+        {
+            try
+            {
+                filesListBox.Items.Clear();
+                filesListBox.Items.AddRange(StateManager.Instance.ImportedFiles.Keys.ToArray());
+                Refresh();
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message, "Encountered errors", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
 

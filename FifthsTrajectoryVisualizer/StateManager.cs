@@ -32,6 +32,8 @@ namespace FifthsTrajectoryVisualizer
 
         public event EventHandler SelectedTrajectoryChanged;
 
+        public event EventHandler TrajectoriesCalculated;
+
         public static StateManager Instance => _instance;
 
         private StateManager()
@@ -59,14 +61,15 @@ namespace FifthsTrajectoryVisualizer
                         {
                             Trajectories[file.Name][mode].TryAdd(resolution, new Trajectory(file.FullName, resolution, mode));
                             Interlocked.Increment(ref count);
-                            worker.ReportProgress(count / allTrajectoriesCount * 100);
                         }
                         catch (Exception ex)
                         {
                             errors.Add($"{file.Name}: {ex.Message}");
+                            ImportedFiles.Remove(file.Name);
                         }
                     });
                 }
+                worker.ReportProgress(count / allTrajectoriesCount * 100);
             });
             if (errors.Any())
                 MessageBox.Show(string.Join("\n", errors.ToHashSet()), "Encountered errors", MessageBoxButtons.OK, MessageBoxIcon.Error);

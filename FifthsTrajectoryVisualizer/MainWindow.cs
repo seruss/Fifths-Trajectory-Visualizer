@@ -28,6 +28,7 @@ namespace FifthsTrajectoryVisualizer
             trajectoryCacheWorker.DoWork += StateManager.Instance.CreateTrajectoryCache;
             trajectoryCacheWorker.ProgressChanged += (_, e) => { cacheUpdateProgress.Value = e.ProgressPercentage; };
             trajectoryCacheWorker.WorkerReportsProgress = true;
+            trajectoryCacheWorker.RunWorkerCompleted += filesTabControl.RefreshImportedFilesList;
 
             typeof(Panel).InvokeMember("DoubleBuffered", BindingFlags.SetProperty | BindingFlags.Instance | BindingFlags.NonPublic, null, circleDisplayPanel, new object[] { true });
             StateManager.Instance.DisplayRepainted += (sender, args) => circleDisplayPanel.Refresh();
