@@ -41,42 +41,42 @@ namespace MusicSignatureBuilder
             foreach (var midiNote in midiNotes)
             {
                 int pointId = midiNote.StartTime / Fragment.Length;
-                InsertCmps(pointId, _fragments, midiNote, midiNote.Duration);
+                InsertFragment(pointId, midiNote, midiNote.Duration);
             }
         }
 
-        private void InsertCmps(int id, Dictionary<int, Fragment> points, MidiNote note, int lengthLeft)
+        private void InsertFragment(int id, MidiNote note, int lengthLeft)
         {
             if (lengthLeft > 0)
             {
-                if (!points.ContainsKey(id))
-                    points.Add(id, new(id * Fragment.Length));
+                if (!_fragments.ContainsKey(id))
+                    _fragments.Add(id, new(id * Fragment.Length));
 
                 int addedLength = note.Duration;
 
-                if (note.StartTime >= points[id].Start && note.EndTime <= points[id].End)
+                if (note.StartTime >= _fragments[id].Start && note.EndTime <= _fragments[id].End)
                 {
-                    points[id].AddNote(note.Number, addedLength);
+                    _fragments[id].AddNote(note.Number, addedLength);
                     return;
                 }
 
-                if (note.StartTime >= points[id].Start && note.EndTime > points[id].End)
+                if (note.StartTime >= _fragments[id].Start && note.EndTime > _fragments[id].End)
                 {
-                    addedLength = points[id].End - note.StartTime;
-                    points[id].AddNote(note.Number, addedLength);
+                    addedLength = _fragments[id].End - note.StartTime;
+                    _fragments[id].AddNote(note.Number, addedLength);
                 }
-                else if (note.StartTime < points[id].Start && note.EndTime > points[id].End)
+                else if (note.StartTime < _fragments[id].Start && note.EndTime > _fragments[id].End)
                 {
                     addedLength = Fragment.Length;
-                    points[id].AddNote(note.Number, addedLength);
+                    _fragments[id].AddNote(note.Number, addedLength);
                 }
-                else if (note.StartTime < points[id].Start && note.EndTime <= points[id].End)
+                else if (note.StartTime < _fragments[id].Start && note.EndTime <= _fragments[id].End)
                 {
-                    addedLength = note.EndTime - points[id].Start;
-                    points[id].AddNote(note.Number, addedLength);
+                    addedLength = note.EndTime - _fragments[id].Start;
+                    _fragments[id].AddNote(note.Number, addedLength);
                 }
 
-                InsertCmps(id + 1, points, note, lengthLeft - addedLength);
+                InsertFragment(++id, note, lengthLeft - addedLength);
             }
         }
 

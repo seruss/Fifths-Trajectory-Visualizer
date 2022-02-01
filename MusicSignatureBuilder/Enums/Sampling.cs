@@ -11,7 +11,7 @@ namespace MusicSignatureBuilder.Enums
         Sixteenth = 16
     }
 
-    public static class ResolutionsExtensions
+    public static class SamplingExtensions
     {
         public static Sampling Parse(string resolution)
         {

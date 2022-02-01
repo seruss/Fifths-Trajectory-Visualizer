@@ -71,67 +71,42 @@ namespace MusicSignatureBuilder
 
         private int ToFifthCircleScale(Scale scale)
         {
-            switch (scale)
+            return scale switch
             {
-                case Scale.C: return 0;
-                case Scale.G: return 1;
-                case Scale.D: return 2;
-                case Scale.A: return 3;
-                case Scale.E: return 4;
-                case Scale.H: return 5;
-                case Scale.Fs: return 6;
-                case Scale.Cs: return 7;
-                case Scale.Gs: return 8;
-                case Scale.Ds: return 9;
-                case Scale.As: return 10;
-                case Scale.F: return 11;
-            }
-
-            return -1;
+                Scale.C => 0,
+                Scale.G => 1,
+                Scale.D => 2,
+                Scale.A => 3,
+                Scale.E => 4,
+                Scale.H => 5,
+                Scale.Fs => 6,
+                Scale.Cs => 7,
+                Scale.Gs => 8,
+                Scale.Ds => 9,
+                Scale.As => 10,
+                Scale.F => 11,
+                _ => throw new ArgumentOutOfRangeException()
+            };
         }
 
         private float GetAngle(Scale scale)
         {
-            switch (scale)
+            return scale switch
             {
-                case Scale.C:
-                    return MathF.PI / 2;
-
-                case Scale.Cs:
-                    return 4 * MathF.PI / 3;
-
-                case Scale.D:
-                    return MathF.PI / 6;
-
-                case Scale.Ds:
-                    return MathF.PI;
-
-                case Scale.E:
-                    return 11 * MathF.PI / 6;
-
-                case Scale.F:
-                    return 2 * MathF.PI / 3;
-
-                case Scale.Fs:
-                    return 3 * MathF.PI / 2;
-
-                case Scale.G:
-                    return MathF.PI / 3;
-
-                case Scale.Gs:
-                    return 7 * MathF.PI / 6;
-
-                case Scale.A:
-                    return 0;
-
-                case Scale.As:
-                    return 5 * MathF.PI / 6;
-
-                case Scale.H:
-                    return 5 * MathF.PI / 3;
-            }
-
-            return 0;
+                Scale.C => MathF.PI / 2,
+                Scale.Cs => 4 * MathF.PI / 3,
+                Scale.D => MathF.PI / 6,
+                Scale.Ds => MathF.PI,
+                Scale.E => 11 * MathF.PI / 6,
+                Scale.F => 2 * MathF.PI / 3,
+                Scale.Fs => 3 * MathF.PI / 2,
+                Scale.G => MathF.PI / 3,
+                Scale.Gs => 7 * MathF.PI / 6,
+                Scale.A => 0,
+                Scale.As => 5 * MathF.PI / 6,
+                Scale.H => 5 * MathF.PI / 3,
+                _ => throw new ArgumentOutOfRangeException(nameof(scale), scale, null)
+            };
         }
     }
 }

@@ -64,12 +64,12 @@ namespace FifthsTrajectoryVisualizer
 
             if (StateManager.Instance.Trajectories.ContainsKey((string)filesListBox.SelectedItem) &&
                 StateManager.Instance.Trajectories[(string)filesListBox.SelectedItem].ContainsKey(ModesExtensions.Parse(modeComboBox.Text)) &&
-                StateManager.Instance.Trajectories[(string)filesListBox.SelectedItem][ModesExtensions.Parse(modeComboBox.Text)].ContainsKey(ResolutionsExtensions.Parse(precisionComboBox.Text)))
+                StateManager.Instance.Trajectories[(string)filesListBox.SelectedItem][ModesExtensions.Parse(modeComboBox.Text)].ContainsKey(SamplingExtensions.Parse(precisionComboBox.Text)))
             {
                 StateManager.Instance.SelectedTrajectory = StateManager.Instance.Trajectories
                         [(string)filesListBox.SelectedItem]
                         [ModesExtensions.Parse(modeComboBox.Text)]
-                        [ResolutionsExtensions.Parse(precisionComboBox.Text)];
+                        [SamplingExtensions.Parse(precisionComboBox.Text)];
 
                 trajectoryInfoLabel.Text = StateManager.Instance.SelectedTrajectory.ToString();
                 StateManager.Instance.ChangeSelectedTrajectory(sender, e);

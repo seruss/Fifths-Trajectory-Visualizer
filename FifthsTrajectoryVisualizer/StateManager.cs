@@ -32,13 +32,9 @@ namespace FifthsTrajectoryVisualizer
 
         public event EventHandler SelectedTrajectoryChanged;
 
-        public event EventHandler TrajectoriesCalculated;
-
         public static StateManager Instance => _instance;
 
-        private StateManager()
-        {
-        }
+        private StateManager() {}
 
         public void CreateTrajectoryCache(object sender, DoWorkEventArgs e)
         {
@@ -49,13 +45,15 @@ namespace FifthsTrajectoryVisualizer
             if (sender is not BackgroundWorker worker)
                 return;
 
-            Parallel.ForEach(ImportedFiles.Values, (file) =>
+            var options = new ParallelOptions {MaxDegreeOfParallelism = -1};
+
+            Parallel.ForEach(ImportedFiles.Values, options, (file) =>
             {
                 Trajectories.TryAdd(file.Name, new());
                 foreach (var mode in Enum.GetValues<Modes>())
                 {
                     Trajectories[file.Name].TryAdd(mode, new());
-                    Parallel.ForEach(Enum.GetValues<Sampling>(), (resolution) =>
+                    Parallel.ForEach(Enum.GetValues<Sampling>(), options, (resolution) =>
                     {
                         try
                         {

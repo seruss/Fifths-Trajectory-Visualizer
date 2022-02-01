@@ -12,7 +12,7 @@
             Y = y;
         }
 
-        public static Point Empty = new(0, 0);
+        public static Point Empty { get; } = new(0, 0);
 
         public override string ToString()
         {
